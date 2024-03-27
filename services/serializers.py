@@ -1,5 +1,4 @@
-from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from rest_framework import serializers
 
@@ -7,20 +6,10 @@ from .models import (
     ShowTheme,
     AstronomyShow,
     PlanetariumDome,
-    User, Reservation, ShowSession, Ticket,
+    Reservation,
+    ShowSession,
+    Ticket,
 )
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = (
-            "id",
-            "username",
-            "email",
-            "first_name",
-            "last_name"
-        )
 
 
 class ShowThemeSerializer(serializers.ModelSerializer):
@@ -66,7 +55,9 @@ class PlanetariumDomeSerializer(serializers.ModelSerializer):
 
 
 class ReservationSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all()
+    )
 
     class Meta:
         model = Reservation
@@ -119,14 +110,6 @@ class TicketSerializer(serializers.ModelSerializer):
             ValidationError
         )
         return data
-
-    def create(self, validated_data):
-        request = self.context.get("request")
-        if request and request.user.is_authenticated:
-            user = request.user
-            reservation = Reservation.objects.create(user=user)
-            validated_data['reservation'] = reservation
-        return super(TicketSerializer, self).create(validated_data)
 
     class Meta:
         model = Ticket

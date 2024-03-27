@@ -4,10 +4,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 
-class User(AbstractUser):
-    pass
-
-
 class ShowTheme(models.Model):
     name = models.CharField(max_length=63,)
 
@@ -44,6 +40,13 @@ class Reservation(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reservations"
     )
+
+    def create(self, validated_data):
+        tickets_data = validated_data.pop('tickets', [])
+        reservation = Reservation.objects.create(**validated_data)
+        for ticket_data in tickets_data:
+            Ticket.objects.create(reservation=reservation, **ticket_data)
+        return reservation
 
     class Meta:
         ordering = ["-created_at"]
