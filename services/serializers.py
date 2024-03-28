@@ -21,7 +21,7 @@ class ShowThemeSerializer(serializers.ModelSerializer):
 class AstronomyShowSerializer(serializers.ModelSerializer):
     class Meta:
         model = AstronomyShow
-        fields = '__all__'
+        fields = ("id", "description", "title", "theme")
 
 
 class AstronomyShowListSerializer(serializers.ModelSerializer):
@@ -147,7 +147,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ("id", "tickets", "created_at")
+        fields = ("id", "user", "tickets", "created_at")
 
     def create(self, validated_data):
         with transaction.atomic():
