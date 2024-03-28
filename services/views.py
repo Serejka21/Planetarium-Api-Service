@@ -66,7 +66,7 @@ class AstronomyShowViewSet(
         queryset = self.queryset
 
         if theme:
-            queryset = queryset.filter(theme__icontains=theme)
+            queryset = queryset.filter(theme__name__icontains=theme)
 
         if title:
             queryset = queryset.filter(title__icontains=title)
