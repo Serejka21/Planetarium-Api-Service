@@ -117,7 +117,7 @@ AUTH_USER_MODEL = "user.User"
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = "Kiev/Europe"
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
