@@ -51,6 +51,7 @@ class ShowThemeViewSet(
 class AstronomyShowViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
     viewsets.GenericViewSet
 ):
 

@@ -120,6 +120,13 @@ or Get it by id
 | `description`  | `string` | Description of the show | **requried** |
 | `theme`  | `list of int` | id (primary key) existing Themes | **requried** |
 
+#### Update Astronomy Show (possible if user has admin permissions)
+
+```http
+  PUT or PATCH /api/planetarium/shows/{id: int}/
+```
+
+If you would to PUT object all fields are required
 
 ## Get list of planetarium dome
 
