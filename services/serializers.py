@@ -15,7 +15,19 @@ from .models import (
 class ShowThemeSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShowTheme
-        fields = '__all__'
+        fields = ("id", "name")
+
+
+class ShowThemeListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShowTheme
+        fields = ("id", "name")
+
+
+class ShowThemeDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShowTheme
+        fields = ("id", "name")
 
 
 class AstronomyShowSerializer(serializers.ModelSerializer):
@@ -41,6 +53,28 @@ class AstronomyShowDetailSerializer(serializers.ModelSerializer):
 
 
 class PlanetariumDomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlanetariumDome
+        fields = (
+            "id",
+            "name",
+            "rows",
+            "seats_in_row",
+            "capacity"
+        )
+
+
+class PlanetariumDomeListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlanetariumDome
+        fields = (
+            "id",
+            "name",
+            "capacity",
+        )
+
+
+class PlanetariumDomeDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanetariumDome
         fields = (

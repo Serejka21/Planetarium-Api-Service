@@ -87,6 +87,14 @@ It returns you distinct value wich contains provided params
 | :-------- | :------- | :-------------------------------- |
 | `name`      | `string` | Name of theme | **Required**. |
 
+#### Update current theme (possible if user has admin permissions)
+
+```http
+  PUT or PATCH or DELETE /api/planetarium/show_themes/{id: int}/
+```
+
+Use key "name" in body to set new value
+
 ## Get list of Astronomy Show
 
 ```http
@@ -123,7 +131,7 @@ or Get it by id
 #### Update Astronomy Show (possible if user has admin permissions)
 
 ```http
-  PUT or PATCH /api/planetarium/shows/{id: int}/
+  PUT or PATCH or DELETE /api/planetarium/shows/{id: int}/
 ```
 
 If you would to PUT object all fields are required
@@ -151,6 +159,14 @@ To get concrete Dome you can provide "name" param
 | `name`  | `string` | Dome name | **requried** |
 | `rows`  | `int` | Count of rows | **requried** |
 | `seats_in_row`  | `int` | Count of seats | **requried** |
+
+#### Update current Dome (possible if user has admin permissions)
+
+```http
+  PUT or PATH or DELETE /api/planetarium/domes/{id: int}/
+```
+
+Use related keys to set new values
 
 ## Get list of Show Sessions
 

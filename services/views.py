@@ -24,12 +24,18 @@ from services.serializers import (
     ShowSessionDetailSerializer,
     ReservationSerializer,
     ReservationListSerializer,
+    ShowThemeDetailSerializer,
+    ShowThemeListSerializer,
+    PlanetariumDomeListSerializer,
+    PlanetariumDomeDetailSerializer,
 )
 
 
 class ShowThemeViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     viewsets.GenericViewSet
 ):
     queryset = ShowTheme.objects.all()
@@ -47,11 +53,20 @@ class ShowThemeViewSet(
 
         return queryset.distinct()
 
+    def get_serializer_class(self):
+        if self.action == "list":
+            return ShowThemeListSerializer
+        if self.action == "retrieve":
+            return ShowThemeDetailSerializer
+
+        return ShowThemeSerializer
+
 
 class AstronomyShowViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     viewsets.GenericViewSet
 ):
 
@@ -87,6 +102,8 @@ class AstronomyShowViewSet(
 class PlanetariumDomeViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
     viewsets.GenericViewSet
 ):
     queryset = PlanetariumDome.objects.all()
@@ -103,6 +120,15 @@ class PlanetariumDomeViewSet(
             queryset = queryset.filter(name__icontains=name)
 
         return queryset.distinct()
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return PlanetariumDomeListSerializer
+
+        if self.action == "retrieve":
+            return PlanetariumDomeDetailSerializer
+
+        return PlanetariumDomeSerializer
 
 
 class ShowSessionViewSet(viewsets.ModelViewSet):
