@@ -15,7 +15,7 @@ class AstronomyShow(models.Model):
     title = models.CharField(max_length=255,)
     description = models.TextField()
     theme = models.ManyToManyField(
-        ShowTheme, related_name="astronomy_shows"
+        ShowTheme
     )
 
     def __str__(self):
@@ -28,7 +28,8 @@ class PlanetariumDome(models.Model):
     seats_in_row = models.IntegerField()
 
     def __str__(self):
-        return f"Dome: {self.name} (rows: {self.rows}, seats_in_row: {self})"
+        return (f"Dome: {self.name} "
+                f"(rows: {self.rows}, seats_in_row: {self.seats_in_row})")
 
     @property
     def capacity(self) -> int:
@@ -40,13 +41,6 @@ class Reservation(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reservations"
     )
-
-    def create(self, validated_data):
-        tickets_data = validated_data.pop('tickets', [])
-        reservation = Reservation.objects.create(**validated_data)
-        for ticket_data in tickets_data:
-            Ticket.objects.create(reservation=reservation, **ticket_data)
-        return reservation
 
     class Meta:
         ordering = ["-created_at"]
