@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'services',
     'user',
     'rest_framework',
-    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
     'debug_toolbar',
     'drf_spectacular',
 ]
