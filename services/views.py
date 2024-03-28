@@ -32,17 +32,25 @@ class ShowThemeViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet
 ):
-
     queryset = ShowTheme.objects.all()
     serializer_class = ShowThemeSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
     authentication_classes = (TokenAuthentication,)
 
+    def get_queryset(self):
+        name = self.request.query_params.get("name")
+
+        queryset = self.queryset
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        return queryset.distinct()
+
 
 class AstronomyShowViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
-    mixins.RetrieveModelMixin,
     viewsets.GenericViewSet
 ):
 
@@ -52,13 +60,16 @@ class AstronomyShowViewSet(
     authentication_classes = (TokenAuthentication,)
 
     def get_queryset(self):
-        """Retrieve an AstronomyShow by Theme filter"""
         theme = self.request.query_params.get("theme")
+        title = self.request.query_params.get("title")
 
         queryset = self.queryset
 
         if theme:
             queryset = queryset.filter(theme__icontains=theme)
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
 
         return queryset.distinct()
 
@@ -81,6 +92,16 @@ class PlanetariumDomeViewSet(
     serializer_class = PlanetariumDomeSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
     authentication_classes = (TokenAuthentication,)
+
+    def get_queryset(self):
+        name = self.request.query_params.get("name")
+
+        queryset = self.queryset
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
+        return queryset.distinct()
 
 
 class ShowSessionViewSet(viewsets.ModelViewSet):
