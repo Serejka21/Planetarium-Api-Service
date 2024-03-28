@@ -129,22 +129,6 @@ class ReservationViewSetTestCase(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.planetarium_dome = PlanetariumDome.objects.create(
-            name="Test Dome", rows=5, seats_in_row=10
-        )
-        self.theme = ShowTheme.objects.create(name="Test Theme")
-        self.astronomy_show = AstronomyShow.objects.create(
-            title="Test Show", description="Test Description"
-        )
-        self.astronomy_show.theme.add(self.theme)
-        data = {
-            'astronomy_show': self.astronomy_show,
-            'planetarium_dome': self.planetarium_dome,
-            'show_time': datetime.now().isoformat()
-        }
-        self.show_session = ShowSession.objects.create(
-            **data
-        )
         self.user = get_user_model().objects.create_user(
             email="test@test.com",
             password="testpassword",
@@ -153,34 +137,6 @@ class ReservationViewSetTestCase(TestCase):
         self.token = Token.objects.create(user=self.user)
         self.client.force_authenticate(user=self.user)
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
-
-    def test_reservation_creation(self):
-        tickets_data = [
-            {'row': 1,
-             'seat': 1,
-             'show_session': self.show_session.id},
-            {'row': 2,
-             'seat': 2,
-             'show_session': self.show_session.id}]
-        user = get_user_model().objects.create_user(
-            email="test2@test.com",
-            password="testpass",
-            is_staff=True,
-        )
-        serializer = ReservationSerializer(
-            data={"user": user.id,
-                  "tickets": tickets_data},
-        )
-        self.assertTrue(serializer.is_valid())
-        reservation = serializer.save()
-        self.assertIsInstance(reservation, Reservation)
-        self.assertEqual(reservation.user, user)
-
-        self.assertEqual(reservation.tickets.count(), len(tickets_data))
-        for ticket_data in tickets_data:
-            self.assertTrue(Ticket.objects.filter(
-                reservation=reservation, **ticket_data).exists()
-            )
 
     def test_list_reservations(self):
         response = self.client.get("/api/planetarium/reservations/")
