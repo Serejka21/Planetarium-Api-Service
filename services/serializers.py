@@ -147,7 +147,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ("id", "user", "tickets", "created_at")
+        fields = ("id", "tickets", "created_at")
 
     def create(self, validated_data):
         with transaction.atomic():
