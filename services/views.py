@@ -4,8 +4,8 @@ from django.db.models import F, Count
 from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import GenericViewSet
 
 from services.models import (
     ShowTheme,
@@ -59,7 +59,7 @@ class ShowThemeViewSet(
         if self.action == "retrieve":
             return ShowThemeDetailSerializer
 
-        return ShowThemeSerializer
+        return self.serializer_class
 
 
 class AstronomyShowViewSet(
@@ -96,7 +96,7 @@ class AstronomyShowViewSet(
         if self.action == "retrieve":
             return AstronomyShowDetailSerializer
 
-        return AstronomyShowSerializer
+        return self.serializer_class
 
 
 class PlanetariumDomeViewSet(
@@ -128,7 +128,7 @@ class PlanetariumDomeViewSet(
         if self.action == "retrieve":
             return PlanetariumDomeDetailSerializer
 
-        return PlanetariumDomeSerializer
+        return self.serializer_class
 
 
 class ShowSessionViewSet(viewsets.ModelViewSet):
@@ -163,7 +163,7 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return ShowSessionDetailSerializer
 
-        return ShowSessionSerializer
+        return self.serializer_class
 
 
 class ReservationPagination(PageNumberPagination):
@@ -192,7 +192,7 @@ class ReservationViewSet(
         if self.action == "list":
             return ReservationListSerializer
 
-        return ReservationSerializer
+        return self.serializer_class
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
