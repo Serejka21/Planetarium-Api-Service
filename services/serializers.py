@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from rest_framework import serializers
@@ -84,6 +83,7 @@ class ShowSessionListSerializer(ShowSessionSerializer):
             "planetarium_dome_name",
             "show_time",
             "tickets_available",
+            "show_session_capacity",
         )
 
 
@@ -97,6 +97,16 @@ class TicketSerializer(serializers.ModelSerializer):
             attrs["show_session"].planetarium_dome,
             ValidationError
         )
+        row = data.get("row")
+        seat = data.get("seat")
+        show_session = data.get("show_session")
+
+        if Ticket.objects.filter(
+                row=row, seat=seat, show_session=show_session).exists():
+            raise serializers.ValidationError(
+                "This seat is already occupied for this show session."
+            )
+
         return data
 
     class Meta:

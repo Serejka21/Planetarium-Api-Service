@@ -36,6 +36,7 @@ class ShowThemeViewSet(
     queryset = ShowTheme.objects.all()
     serializer_class = ShowThemeSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly, )
+    authentication_classes = (TokenAuthentication,)
 
 
 class AstronomyShowViewSet(
@@ -48,6 +49,7 @@ class AstronomyShowViewSet(
     queryset = AstronomyShow.objects.prefetch_related("theme")
     serializer_class = AstronomyShowSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    authentication_classes = (TokenAuthentication,)
 
     def get_queryset(self):
         """Retrieve an AstronomyShow by Theme filter"""
@@ -78,6 +80,7 @@ class PlanetariumDomeViewSet(
     queryset = PlanetariumDome.objects.all()
     serializer_class = PlanetariumDomeSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    authentication_classes = (TokenAuthentication,)
 
 
 class ShowSessionViewSet(viewsets.ModelViewSet):
@@ -93,6 +96,7 @@ class ShowSessionViewSet(viewsets.ModelViewSet):
     )
     serializer_class = ShowSessionSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
+    authentication_classes = (TokenAuthentication,)
 
     def get_queryset(self):
         date = self.request.query_params.get("date")
@@ -131,6 +135,7 @@ class ReservationViewSet(
     serializer_class = ReservationSerializer
     pagination_class = ReservationPagination
     permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
 
     def get_queryset(self):
         return Reservation.objects.filter(user=self.request.user)
