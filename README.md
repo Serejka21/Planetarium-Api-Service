@@ -1,6 +1,6 @@
 # Planetarium API Service
 
-Planetarium API Service is a Django RESTful API backend for managing a planetarium's resources, including shows, show sessions, reservations, and more. It provides endpoints for creating, updating, deleting, and retrieving data related to various aspects of a planetarium's operations.
+Planetarium API Service is a Django RESTful API backend for managing a planetarium's resources, including shows, show sessions, reservations, and more. It provides endpoints for creating, updating and retrieving data related to various aspects of a planetarium's operations.
 
 ## Features
 
